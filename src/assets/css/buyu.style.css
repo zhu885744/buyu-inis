@@ -1,47 +1,4 @@
 /* ==========================================
- * 全局入场动画
- * ========================================== */
-@keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px) translateZ(0);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) translateZ(0);
-  }
-}
-
-header {
-  animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
-  opacity: 0;
-  transform: translateY(20px) translateZ(0);
-  backface-visibility: hidden;
-  will-change: opacity, transform; /* 告诉浏览器提前准备动画属性，减少卡顿 */
-  perspective: 1000px; /* 配合 backface-visibility 消除锯齿 */
-  transform-origin: top center; /* 动画原点改为顶部居中，更符合视觉逻辑 */
-  transition: none; /* 清空默认过渡，避免和动画冲突 */
-}
-
-/* 主体内容延迟入场（向下偏移入场） */
-main {
-  opacity: 0;
-  transform: translateY(20px) translateZ(0);
-  animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.3s forwards;
-  backface-visibility: hidden;
-  will-change: opacity, transform;
-}
-
-/* 页脚最后入场 */
-footer {
-  opacity: 0;
-  transform: translateY(20px) translateZ(0);
-  animation: fadeUp 0.5s cubic-bezier(0.22, 1, 0.36, 1) 0.5s forwards;
-  backface-visibility: hidden;
-  will-change: opacity, transform;
-}
-
-/* ==========================================
  * 基础样式
  * ========================================== */
 
