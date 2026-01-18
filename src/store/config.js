@@ -1,7 +1,7 @@
 import {defineStore} from 'pinia'
-import utils from '{src}/utils/utils'
-import cache from '{src}/utils/cache'
-import axios from '{src}/utils/request'
+import utils from '@/utils/utils'
+import cache from '@/utils/cache'
+import axios from '@/utils/request'
 
 // 获取指定配置
 const one = (state = {}, key = '') => {

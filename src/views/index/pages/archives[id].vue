@@ -1,4 +1,4 @@
-<!-- 独立页面 -->
+<!-- 文章页面 -->
 <template>
     <atom-article></atom-article>
 </template>

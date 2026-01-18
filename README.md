@@ -52,3 +52,31 @@ npm run dev
 # 当你准备将应用发布到生产环境时，请运行：
 npm run build
 ```
+
+## 关键注意点（必看！）
+1.开发环境
+本地运行 `npm run dev` 时，Vue 内置的开发服务器会自动处理 `history` 模式的路由重定向，无需额外配置，直接访问 `http://localhost:8080/search` 等路径即可，不会有 `/#/`。
+
+2.生产环境（核心！否则刷新页面 404）
+部署到服务器时，必须配置后端重定向规则，确保所有路由请求都指向 index.html，以下是主流服务器的配置示例：
+Nginx 配置
+找到你的 Nginx 站点配置文件（如 `/etc/nginx/conf.d/your-site.conf）`，添加核心重定向规则：
+```
+server {
+  listen 80;
+  server_name 你的域名; # 如：zhuxu.asia
+  root /usr/share/nginx/html; # 前端打包后的dist目录路径
+  index index.html;
+
+  # 核心：匹配所有路由，优先访问文件/目录，否则重定向到index.html
+  location / {
+    try_files $uri $uri/ /index.html;
+  }
+
+  # 可选：禁止访问隐藏文件（如.git）
+  location ~ /\.git {
+    deny all;
+  }
+}
+```
+配置后重启 Nginx：`nginx -s reload`

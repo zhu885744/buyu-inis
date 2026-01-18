@@ -1,5 +1,6 @@
 <!-- 首页文章列表 -->
 <template>
+  <main>
   <div class="container">
     <div class="row">
       <div class="col-mb-12 col-12">
@@ -11,25 +12,13 @@
             </form>
           </div>
         </div>
-        <!-- 文章列表控件 -->
-        <article class="buyu-card p-md border rounded shadow-sm hover:shadow-hover transition-shadow">
-            <h2 class="post-title font-bold mb-md" itemprop="name headline">
-                <a itemprop="url" href="" class="text-link transition-color hover:text-link-hover">
-                  123
-                </a>
-            </h2>
-            <ul class="post-meta mb-md text-muted">
-                <li><i class="fa fa-calendar mr-1"></i>&nbsp;2005-1-1发布<time datetime="" itemprop="datePublished"></time></li>
-                <li><i class="fa fa-commenting-o mr-1"></i>&nbsp;1评论</li>
-                <li><i class="fa fa-eye mr-1"></i>1次阅读</li>
-            </ul>
-            <p class="card-text">23123</p>
-        </article>
-        <!-- 分页控件 -->
-        <div class="pagination-container flex justify-center items-center gap-md mt-lg">
-          
-        </div>
+        <atom-post></atom-post>
       </div>
     </div>
   </div>
+  </main>
 </template>
+
+<script setup>
+import AtomPost from '@/comps/index/atom/post.vue'
+</script>

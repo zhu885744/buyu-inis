@@ -1,5 +1,5 @@
 import axios from 'axios'
-import utils from '{src}/utils/utils'
+import utils from '@/utils/utils'
 
 // 设置超时
 axios.defaults.timeout = 60 * 1000

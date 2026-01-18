@@ -1,6 +1,6 @@
-import cache from '{src}/utils/cache'
-import utils from '{src}/utils/utils'
-import axios from '{src}/utils/request'
+import cache from '@/utils/cache'
+import utils from '@/utils/utils'
+import axios from '@/utils/request'
 
 const config = {
     one: (key = null) => {

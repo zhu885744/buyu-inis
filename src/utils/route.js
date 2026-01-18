@@ -1,4 +1,4 @@
-import router from '{src}/router/index.js'
+import router from '@/router/index.js'
 
 export function push (options) {
     // 添加路由跳转前的拦截器

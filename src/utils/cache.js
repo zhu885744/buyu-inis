@@ -1,6 +1,6 @@
 import cache from 'lscache'
-import utils from '{src}/utils/utils'
-import crypto from '{src}/utils/crypto'
+import utils from '@/utils/utils'
+import crypto from '@/utils/crypto'
 
 const iv  = crypto.token('inis-comm-iv', 16, 'cache')
 const key = crypto.token('inis-comm-key', 16, 'cache')
