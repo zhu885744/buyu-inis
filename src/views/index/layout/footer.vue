@@ -32,10 +32,6 @@ import utils from '@/utils/utils'
 import cache from '@/utils/cache'
 import axios from '@/utils/request'
 
-// 读取环境变量中的版本号和缓存配置
-const VITE_VERSION = import.meta.env.VITE_VERSION // 读取 VITE_VERSION
-const CACHE_DURATION = 10 * 60 * 1000 // 10分钟缓存（如果需要自定义）
-
 const state = reactive({
     year: {
         start: null,
@@ -48,7 +44,7 @@ const state = reactive({
         }
     },
     version: {
-        theme: VITE_VERSION, 
+        theme: inis.version,
         system: '1.0.0',
     },
 })
@@ -56,37 +52,55 @@ const state = reactive({
 const method = {
     // 获取站点信息
     site: async () => {
+
+        // 缓存名称
         const cacheName = 'site-info'
+
         if (cache.has(cacheName)) {
             state.site.struct = cache.get(cacheName)
             return
         }
-        const { code, data } = await axios.get('/api/config/one', {
-            params: { key: 'SITE_INFO' } 
-        })
-        if (code !== 200) return
-        state.site.struct = data.json
 
-        cache.set(cacheName, data.json, CACHE_DURATION)
+        // 缓存不存在
+        const { code, data } = await axios.get('/api/config/one', {
+            key: 'SITE_INFO',
+        })
+
+        if (code !== 200) return
+
+        state.site.struct = data.json
+        // 缓存10分钟 - 防止频繁请求
+        cache.set(cacheName, data.json, inis.cache)
     },
     // 获取系统版本
     version: async () => {
+
+        // 缓存名称
         const cacheName = 'system-version-local'
+
         if (cache.has(cacheName)) {
             state.version.system = cache.get(cacheName)
             return
         }
 
+        // 缓存不存在
         const { code, data } = await axios.get('/dev/info/version')
-        if (code !== 200) return
-        state.version.system = data?.inis
 
-        cache.set(cacheName, data?.inis, CACHE_DURATION)
+        if (code !== 200) return
+
+        state.version.system = data?.inis
+        // 缓存10分钟 - 防止频繁请求
+        cache.set(cacheName, data?.inis, inis.cache)
     },
-    // 时间戳转年份方法
+    // 给一个时间戳，返回年份
     year: (timestamp = Math.round(new Date() / 1000)) => {
+
+        // 将时间戳转换为毫秒数
         const milliseconds = parseInt(timestamp) * 1000
+        // 创建一个新的Date对象，并传入毫秒数
         const date = new Date(milliseconds)
+
+        // 使用Date对象的getFullYear方法获取年份
         return date.getFullYear()
     }
 }

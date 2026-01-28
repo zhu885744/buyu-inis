@@ -1,74 +1,57 @@
-<!-- 导航栏组件 -->
 <template>
-    <!-- 顶部导航栏 -->
-    <header id="header" class="header">
-        <div class="container">
-            <!-- 导航容器 -->
-            <nav class="nav-wrapper">
-                <!-- 汉堡菜单：移动端触发按钮，优先加载 -->
-                <button class="menu-toggle" id="menuToggle" aria-label="侧边导航" title="侧边导航">
-                    <i class="fa fa-bars" aria-hidden="true"></i>
-                </button>
-                <!-- 站点Logo -->
-                <a href="/" class="logo site-logo" title="logo">
-                    {{ state.site.struct?.title || 'buyu-inis' }}
-                </a>
-                <!-- 主导航菜单：桌面端默认显示，移动端隐藏 -->
-                <ul class="main-menu site-nav" id="mainMenu" aria-label="主导航">
-                    <!-- 移动端侧边栏标题：仅移动端显示 -->
-                    <li class="sidebar-title site-nav__sidebar-title">
-                        <span class="sidebar-title__main"></span>
-                        <span class="sidebar-title__desc"></span>
-                    </li>
-                    <!-- 首页导航项 -->
-                    <li class="site-nav__item">
-                        <a href="/" class="site-nav__link" title="首页">
-                            首页
-                        </a>
-                    </li>
-                    <!-- 分类下拉菜单：动态获取分类 -->
-                    <li class="site-nav__item has-dropdown" v-if="state.categories.list && state.categories.list.length">
-                        <a href="#" class="site-nav__link" title="分类">
-                            分类
-                        </a>
-                        <!-- 分类下拉列表 -->
-                        <ul class="dropdown site-nav__dropdown" aria-label="分类列表">
-                            <li class="site-nav__dropdown-item" v-for="category in state.categories.list" :key="category.id || category.key">
-                                <a :href="`/category/${category.key || category.id}`" class="site-nav__dropdown-link" :title="category.name">
-                                    {{ category.name || '未命名分类' }}
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <!-- 分类数据为空时显示提示 -->
-                    <li class="site-nav__item" v-else>
-                        <a href="#" class="site-nav__link" title="分类">
-                            分类（暂无数据）
-                        </a>
-                    </li>
-
-                    <!-- 独立页面：基于接口返回数据动态渲染 -->
-                    <li class="site-nav__item" v-for="page in state.pages.list" :key="page.id">
-                        <a :href="`/page/${page.key}`" class="site-nav__link" :title="page.title">
-                            {{ page.title }}
-                        </a>
-                    </li>
-                    <!-- 无数据时的兜底显示 -->
-                    <li class="site-nav__item" v-if="!state.pages.list.length">
-                        <a href="#" class="site-nav__link" title="独立页面">
-                            独立页面
-                        </a>
-                    </li>
-                </ul>
-            
-                <!-- 浅色深色模式切换按钮 -->
-                <button id="theme-toggle" class="theme-toggle-btn" aria-label="切换深色/浅色模式">
-                    <i class="fa fa-sun-o light-icon" aria-hidden="true"></i>
-                    <i class="fa fa-moon-o dark-icon" aria-hidden="true"></i>
-                </button>
-            </nav>
-        </div>
-    </header>
+  <header id="header" class="header">
+    <div class="container">
+      <nav class="nav-wrapper">
+        <button class="menu-toggle" id="menuToggle" aria-label="侧边导航" title="侧边导航">
+          <i class="fa fa-bars" aria-hidden="true"></i>
+        </button>
+        <!-- Logo：替换为router-link -->
+        <router-link to="/" class="logo site-logo" title="logo">
+          {{ state.site.struct?.title || 'buyu-inis' }}
+        </router-link>
+        <ul class="main-menu site-nav" id="mainMenu" aria-label="主导航">
+          <li class="sidebar-title site-nav__sidebar-title">
+            <span class="sidebar-title__main"></span>
+            <span class="sidebar-title__desc"></span>
+          </li>
+          <!-- 首页：替换为router-link -->
+          <li class="site-nav__item">
+            <router-link to="/" class="site-nav__link" title="首页">
+              首页
+            </router-link>
+          </li>
+          <!-- 分类下拉菜单 -->
+          <li class="site-nav__item has-dropdown" v-if="state.categories.list && state.categories.list.length">
+            <a href="#" class="site-nav__link" title="分类">分类</a>
+            <ul class="dropdown site-nav__dropdown" aria-label="分类列表">
+              <li class="site-nav__dropdown-item" v-for="category in state.categories.list" :key="category.id || category.key">
+                <!-- 分类链接：替换为router-link -->
+                <router-link :to="`/category/${category.key || category.id}`" class="site-nav__dropdown-link" :title="category.name">
+                  {{ category.name || '未命名分类' }}
+                </router-link>
+              </li>
+            </ul>
+          </li>
+          <li class="site-nav__item" v-else>
+            <a href="#" class="site-nav__link" title="分类">分类（暂无数据）</a>
+          </li>
+          <!-- 独立页面：替换为router-link -->
+          <li class="site-nav__item" v-for="page in state.pages.list" :key="page.id">
+            <router-link :to="`/page/${page.key}`" class="site-nav__link" :title="page.title">
+              {{ page.title }}
+            </router-link>
+          </li>
+          <li class="site-nav__item" v-if="!state.pages.list.length">
+            <a href="#" class="site-nav__link" title="独立页面">独立页面</a>
+          </li>
+        </ul>
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="切换深色/浅色模式">
+          <i class="fa fa-sun-o light-icon" aria-hidden="true"></i>
+          <i class="fa fa-moon-o dark-icon" aria-hidden="true"></i>
+        </button>
+      </nav>
+    </div>
+  </header>
 </template>
 
 <script setup>

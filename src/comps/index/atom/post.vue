@@ -1,7 +1,7 @@
 <template>
   <!-- 文章列表控件 -->
-  <div v-if="state.article.load" class="text-center py-4">加载中...</div>
-  <div v-else-if="state.article.list.length === 0" class="text-center py-4">暂无文章</div>
+  <div v-if="state.article.load" class="buyu-cards gap-md mt-md"><div class="buyu-card">加载中...</div></div>
+  <div v-else-if="state.article.list.length === 0" class="buyu-cards gap-md mt-md"><div class="buyu-card">暂无文章</div></div>
   <div class="buyu-cards gap-md mt-md">
     <article 
       v-for="item in sortedArticleList"
@@ -28,26 +28,6 @@
       <p class="card-text">{{ truncateText(item.content || '', 150) }}</p>
     </article>
   </div>
-
-  <!-- 分页控件 -->
-  <div v-if="state.page.total > 1" class="pagination-container flex justify-center items-center gap-md mt-lg">
-    <!-- 分页按钮示例（可根据需要完善） -->
-    <button 
-      class="pagination-btn px-md py-sm border rounded"
-      @click="method.changePage(state.page.code - 1)"
-      :disabled="state.page.code === 1"
-    >
-      上一页
-    </button>
-    <span class="pagination-current">{{ state.page.code }} / {{ state.page.total }}</span>
-    <button 
-      class="pagination-btn px-md py-sm border rounded"
-      @click="method.changePage(state.page.code + 1)"
-      :disabled="state.page.code === state.page.total"
-    >
-      下一页
-    </button>
-  </div>
 </template>
 
 <script setup>
@@ -68,7 +48,7 @@ const state = reactive({
   // 分页
   page: {
     code: 1,    // 当前页码
-    limit: 10,   // 每页条数
+    limit: 100,   // 每页条数
     total: 1    // 总页数
   },
   item: {
@@ -106,16 +86,23 @@ const method = {
       const params = {
         page: page,
         limit: state.page.limit,
-        order: state.article.order, // 传给后端的排序规则
-        where: 'audit = 1' // 只显示审核通过的文章
+        order: state.article.order,
+        where: 'audit = 1'
       }
-      const { data: res } = await axios.get('/api/article/all', { params })
+      // 1. 增加axios响应拦截兜底（或直接校验响应）
+      const response = await axios.get('/api/article/all', { params })
+      // 2. 校验响应是否存在、是否为对象
+      const res = response.data || {} 
+      // 3. 兜底赋值，避免res.data为undefined/null
       state.article.list = res.data || []
       state.page.total = res.page || 1
       state.page.code = parseInt(page)
     } catch (error) {
       console.error('获取文章列表失败：', error)
+      // 异常时强制兜底空数组
       state.article.list = []
+      state.page.total = 1
+      state.page.code = 1
     } finally {
       state.article.load = false
     }

@@ -8,7 +8,7 @@
             <div class="error-page">
               <h2 class="post-title">404 - 页面没找到</h2>
               <p>你想查看的页面已被隐藏或删除了！</p>
-              <p><a class="post-bth" href="/">返回首页</a></p>
+              <p><router-link to="/" class="post-bth" title="logo">返回首页</router-link></p>
             </div>
           </article>
         </div>

@@ -8,6 +8,24 @@
 </template>
 
 <script setup>
-  import iNav from '@/views/index/layout/nav.vue'
-  import iFooter from '@/views/index/layout/footer.vue'
+import iNav from '@/views/index/layout/nav.vue'
+import iFooter from '@/views/index/layout/footer.vue'
+
+  // 追加配置
+globalThis.inis = {
+  api: { uri: '', key: '' },
+  cache: 10,
+  lazy_time : 500,
+  token_name: import.meta.env.VITE_TOKEN_NAME,
+  ...globalThis.inis,
+  version   : import.meta.env.VITE_VERSION,
+}
+
+import channel from '@/utils/channel'
+
+const item = new channel('theme')
+
+item.on((data) => {
+  console.log('主题更新：', data)
+})
 </script>
